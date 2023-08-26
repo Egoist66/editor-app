@@ -1,0 +1,53 @@
+h2 {
+  margin: 50px 0px;
+}
+
+textarea {
+  max-width: 800px;
+  min-height: 450px !important;
+  overflow: auto;
+  font-size: 18px !important;
+  resize: none;
+  font-weight: 500 !important;
+  color: #0a62ff !important;
+}
+
+a {
+  display: inline-block;
+
+  &:disabled {
+    opacity: .4 !important;
+  }
+}
+
+.btn-block {
+  margin-top: 30px;
+}
+
+#file {
+  display: none !important;
+}
+
+pre {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+select {
+  margin-bottom: 30px;
+  width: 120px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  body,html {
+    background-color: #1e1e1e;
+    color: white;
+  }
+
+  textarea {
+    background-color: #333 !important;
+    color: #0a62ff;
+  }
+}
+
