@@ -1,6 +1,6 @@
 import DOMRender from "./src/service/Render.js";
 import App from "./src/components/App.js";
-import Service from "./src/service/Service.js";
+import {EditorService, UploadScriptService} from "./src/service/Service.js";
 
 
 const root = new DOMRender({
@@ -8,4 +8,4 @@ const root = new DOMRender({
     app: App
 })
 
-root.render(Service)
+root.render(EditorService, UploadScriptService)

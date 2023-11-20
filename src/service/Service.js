@@ -1,16 +1,12 @@
 import useState from "./State.js";
+import {delay} from "../utils/utils.js";
 
-function delay(fn, ms){
-    const timer = setTimeout(() => {
-            fn()
-            clearTimeout(timer)
-    }, ms)
-}
 
-const Service = () => {
+export const EditorService = () => {
 
 
     const {state, setState} = useState()
+
 
     const view = document.querySelector('#view-changes');
     const download = document.querySelector('#download-file');
@@ -27,13 +23,11 @@ const Service = () => {
     const template_btn = document.querySelector('#template button')
 
 
-
     template_btn.addEventListener('click', () => {
-        setState('data', '<style></style>\n\n<script></script>')
+        setState('data', '<style></style>\n\n<script></script>\n\n')
         textarea.dataset.value = state.data
-        textarea.value = textarea.dataset.value
+        textarea.value += textarea.dataset.value
     })
-
 
 
     file_type.addEventListener('change', (e) => {
@@ -41,7 +35,6 @@ const Service = () => {
         textarea.dispatchEvent(new Event('change'))
 
 
-       
     });
 
     file_format.addEventListener('change', (e) => {
@@ -49,12 +42,10 @@ const Service = () => {
         textarea.dispatchEvent(new Event('change'))
 
 
-       
     })
 
 
-
-    textarea.addEventListener('change', function(e){
+    textarea.addEventListener('change', function (e) {
         const btnControls = [viewBtn, view, download, downloadBtn]
 
 
@@ -66,15 +57,13 @@ const Service = () => {
         })
 
 
-        console.log(state)
-
         const blob = new Blob([this.dataset.value], {type: `${state['file-format']}`})
         view.href = URL.createObjectURL(blob)
         download.download = `${Date.now()}.${state['file-type'] ?? 'txt'}`
         download.href = URL.createObjectURL(blob)
 
 
-        if(textarea.value === ''){
+        if (textarea.value === '') {
             state.data = ''
             fileDetails.textContent = ''
             download.removeAttribute('href')
@@ -89,11 +78,11 @@ const Service = () => {
     upload.addEventListener('click', (e) => {
         file.click()
 
-        file.onchange = function(e){
+        file.onchange = function (e) {
             const file = e.target.files[0]
-            console.log(fileDetails)
+            upload.querySelector('button').textContent = 'Uploading...'
 
-            if(file){
+            if (file) {
                 let fileReader
                 fileDetails.textContent = `
                    name: ${file.name};
@@ -102,24 +91,31 @@ const Service = () => {
             
                 `
                 const changeEvent = new Event('change')
-                
+
                 fileReader = new FileReader()
                 fileReader.onload = (e) => {
                     const result = e.target.result
-                    if(result){
-                        setState('file', result)
-                        textarea.value = state.file
-                        textarea.dataset.value = state.file
-                        textarea.focus()
+                    if (result) {
 
                         delay(() => {
+                            setState('file', result)
+                            textarea.value = state.file
+                            textarea.dataset.value = state.file
+                            textarea.focus()
                             textarea.blur()
+
+                            upload.querySelector('button').textContent = 'Upload'
+
                             textarea.dispatchEvent(changeEvent)
-                        }, 2000)
+                        }, 1000)
                     }
                 }
 
-              fileReader.readAsText(file)
+                fileReader.onerror = () => {
+                    upload.querySelector('button').textContent = 'Error upload'
+                }
+
+                fileReader.readAsText(file)
 
             }
 
@@ -128,12 +124,10 @@ const Service = () => {
     })
 
 
-
     clear.addEventListener('click', () => {
-        if(textarea.value === ''){
+        if (textarea.value === '') {
             alert('Nothing to clean')
-        }
-        else {
+        } else {
             state.data = ''
             textarea.value = ''
             textarea.dispatchEvent(new Event('change'))
@@ -142,4 +136,34 @@ const Service = () => {
     })
 }
 
-export default  Service
+export const UploadScriptService = () => {
+    const textarea = document.querySelector('textarea');
+
+    const scriptInput = document.querySelector('#lib-scripts')
+    const script = document.createElement('script')
+    script.id = 'lib-script'
+    script.defer = true
+
+    scriptInput.addEventListener('blur', (e) => {
+
+
+        script.src = e.currentTarget.value
+        document.body.append(script)
+        textarea.value += `<script defer src="${e.currentTarget.value}"></script>\n\n\n\n 
+        <script>
+        
+           window.onload = () => {
+           // here your script
+           }
+        
+        </script>\n\n`
+
+    })
+
+    scriptInput.addEventListener('input', (e) => {
+        if (e.currentTarget.value === '') {
+            document.querySelector('#lib-script').remove()
+        }
+    })
+
+}

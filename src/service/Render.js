@@ -1,10 +1,10 @@
 function DOMRender({root, app}){
   
-    this.render = (fn) => {
+    this.render = (...initFns) => {
         window.onload = function (){
             document.getElementById(root).insertAdjacentHTML('beforeend', app())
 
-            fn()
+            initFns.forEach(fn => fn())
         }
     }
 }

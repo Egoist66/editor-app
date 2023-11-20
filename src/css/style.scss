@@ -2,6 +2,10 @@ h2 {
   margin: 50px 0px;
 }
 
+body,html {
+  background: ghostwhite;
+}
+
 textarea {
   max-width: 800px;
   min-height: 450px !important;
@@ -17,12 +21,27 @@ a {
 
   &:disabled {
     opacity: .4 !important;
+    cursor: not-allowed !important;
   }
 }
 
 .btn-block {
   margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > div {
+    width: 50%;
+  }
+}
+
 
 #file {
   display: none !important;
@@ -35,12 +54,12 @@ pre {
 
 select {
   margin-bottom: 30px;
-  width: 120px;
+  width: 50% !important;
 }
 
 
 @media (prefers-color-scheme: dark) {
-  body,html {
+  body, html {
     background-color: #1e1e1e;
     color: white;
   }
