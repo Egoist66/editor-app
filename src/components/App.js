@@ -41,13 +41,15 @@ const App = () => {
                               className: "form-control"
                            })}
                            
-                           <input style="display: inline-block; margin-top: 20px" class="btn btn-primary" type="reset" value="Clear" />
+                           <div id="script-controls">
                            
                              ${Button({
-                                    name: 'Save',
-                                    className: "primary",
-                                    id: 'save-script'
-                             })}
+                                name: 'Save',
+                                type: "button",
+                                className: "primary",
+                                id: 'save-script'
+                            })}
+                          </div>
                       
                        </form>
                       

@@ -148,6 +148,10 @@ export const UploadScriptService = () => {
     script.defer = true
 
     save.addEventListener('click', () => {
+        if(scriptInput.value === ''){
+            alert('Empty value!')
+            return
+        }
         script.src = scriptInput.value
         document.body.append(script)
         textarea.value += `<script defer src="${scriptInput.value}"></script>\n\n\n\n 
