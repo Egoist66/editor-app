@@ -42,6 +42,12 @@ const App = () => {
                            })}
                            
                            <input style="display: inline-block; margin-top: 20px" class="btn btn-primary" type="reset" value="Clear" />
+                           
+                             ${Button({
+                                    name: 'Save',
+                                    className: "primary",
+                                    id: 'save-script'
+                             })}
                       
                        </form>
                       

@@ -140,16 +140,17 @@ export const UploadScriptService = () => {
     const textarea = document.querySelector('textarea');
 
     const scriptInput = document.querySelector('#lib-scripts')
+    const save = document.querySelector('#save-script')
+
+
     const script = document.createElement('script')
     script.id = 'lib-script'
     script.defer = true
 
-    scriptInput.addEventListener('blur', (e) => {
-
-
-        script.src = e.currentTarget.value
+    save.addEventListener('click', () => {
+        script.src = scriptInput.value
         document.body.append(script)
-        textarea.value += `<script defer src="${e.currentTarget.value}"></script>\n\n\n\n 
+        textarea.value += `<script defer src="${scriptInput.value}"></script>\n\n\n\n 
         <script>
         
            window.onload = () => {
@@ -157,7 +158,6 @@ export const UploadScriptService = () => {
            }
         
         </script>\n\n`
-
     })
 
     scriptInput.addEventListener('input', (e) => {
